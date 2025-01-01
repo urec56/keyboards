@@ -211,17 +211,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В кон
             } else {
                 break;
             }
-            // if (!record->tap.count && record->event.pressed) { // Кнопка зажата
-            //     register_code(KC_LWIN); 
-            //     lang_shift_process_record(LA_CHNG, record);     
-            //     return false;
-            // } else if (!record->tap.count && !record->event.pressed) { // Кнопка отжата после зажатия
-            //     unregister_code(KC_LWIN); 
-            //     record->event.pressed = true;
-            //     lang_shift_process_record(LA_CHNG, record);     
-            //     record->event.pressed = false;
-            //     return false;
-            // }
 
         case RALT_T(KC_T):
         case RALT_T(KC_D):
@@ -230,17 +219,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В кон
             } else {
                 break;
             }
-            // if (!record->tap.count && record->event.pressed) { // Кнопка зажата
-            //     register_code(KC_LALT); 
-            //     lang_shift_process_record(LA_CHNG, record);     
-            //     return false;
-            // } else if (!record->tap.count && !record->event.pressed) { // Кнопка отжата после зажатия
-            //     unregister_code(KC_LALT); 
-            //     record->event.pressed = true;
-            //     lang_shift_process_record(LA_CHNG, record);     
-            //     record->event.pressed = false;
-            //     return false;
-            // }
         
         case RCTL_T(KC_J):
         case RCTL_T(KC_Y):
@@ -249,17 +227,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В кон
             } else {
                 break;
             }
-            // if (!record->tap.count && record->event.pressed) { // Кнопка зажата
-            //     register_code(KC_LCTL); 
-            //     lang_shift_process_record(LA_CHNG, record);     
-            //     return false;
-            // } else if (!record->tap.count && !record->event.pressed) { // Кнопка отжата после зажатия
-            //     unregister_code(KC_LCTL); 
-            //     record->event.pressed = true;
-            //     lang_shift_process_record(LA_CHNG, record);     
-            //     record->event.pressed = false;
-            //     return false;
-            // }
     }
 
     return true;    // Если условия выше не сработали, то отправить символ как есть
