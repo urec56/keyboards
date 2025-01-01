@@ -50,9 +50,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //,-----------------------------------------------------------------------.                        ,-----------------------------------------------------------------------.
           KC_ESC,      KC_O,     KC_QUOT,     KC_Z,       KC_S,      KC_RBRC,                               KC_Q,       KC_L,      KC_K,       KC_R,        KC_W,     KC_SCLN,
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
-           KC_A,       TD(0),     TD(2),      TD(4),   SFT_T(KC_F),   KC_M,                                 KC_U,   SFT_T(KC_N),   TD(5),      TD(3),       TD(1),      KC_X,
+           KC_A, RWIN_T(KC_C),RALT_T(KC_T),RCTL_T(KC_J),SFT_T(KC_F),  KC_M,                                 KC_U, SFT_T(KC_N),RCTL_T(KC_Y),RALT_T(KC_D),RWIN_T(KC_LBRC),KC_X,
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
-         LA_CHNG,      KC_I,     KC_DOT,      KC_E,       KC_B,      KC_GRV,                              KC_COMM,      KC_V,      KC_H,       KC_G,        KC_P,     XXXXXXX,
+         LA_CHNG,      KC_I,     KC_DOT,      KC_E,       KC_B,      KC_GRV,                               KC_COMM,     KC_V,      KC_H,       KC_G,        KC_P,     XXXXXXX,
     //|-----------+-----------+-----------+-----------+-----------+-----------+-----------||-----------+-----------+-----------+-----------+-----------+-----------+-----------|
                             LT(L_MEDIA, KC_ENT),  LT(L_MOUSE, KC_SPC),     MO(L_NAV),             MO(L_SYM),      LT(L_FUN, KC_BSPC),       MO(L_NUM)
                         //`+--------------------+--------------------+--------------------||--------------------+--------------------+--------------------+'
@@ -138,11 +138,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
          KC_LCTL,      KC_B,       KC_Z,      KC_X,       KC_C,       KC_V,                                KC_N,      KC_LEFT,    KC_DOWN,    KC_RGHT,     KC_M,      KC_SLSH,
     //|-----------+-----------+-----------+-----------+-----------+-----------+-----------||-----------+-----------+-----------+-----------+-----------+-----------+-----------|
-                                   KC_LALT,             KC_SPC,        LT(L_NUM, KC_ESC),           KC_H,               KC_SPC,         LT(L_FUN, KC_ENT)
+                                  KC_LALT,              KC_SPC,        LT(L_NUM, KC_ESC),           KC_H,               KC_SPC,         LT(L_FUN, KC_ENT)
                         //`+--------------------+--------------------+--------------------||--------------------+--------------------+--------------------+'
     )
 };
 
+bool modify_layer(uint16_t keycode, keyrecord_t *record) {
+    if (!record->tap.count && record->event.pressed) { // Кнопка зажата
+        register_code(keycode); 
+        lang_shift_process_record(LA_CHNG, record);     
+        return false;
+    } else if (!record->tap.count && !record->event.pressed) { // Кнопка отжата после зажатия
+        unregister_code(keycode); 
+        record->event.pressed = true;
+        lang_shift_process_record(LA_CHNG, record);     
+        record->event.pressed = false;
+        return false;
+    }
+    return true;
+};
 
 bool shift_on_next_key = false;
 
@@ -185,6 +199,67 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В кон
         register_code(KC_SPC);
         unregister_code(KC_SPC);
         return false;
+    }
+
+
+    // Модификаторы со сменой слоя на енг
+    switch (keycode) {
+        case RWIN_T(KC_C):
+        case RWIN_T(KC_LBRC):
+            if (!modify_layer(KC_LWIN, record)) {
+                return false;
+            } else {
+                break;
+            }
+            // if (!record->tap.count && record->event.pressed) { // Кнопка зажата
+            //     register_code(KC_LWIN); 
+            //     lang_shift_process_record(LA_CHNG, record);     
+            //     return false;
+            // } else if (!record->tap.count && !record->event.pressed) { // Кнопка отжата после зажатия
+            //     unregister_code(KC_LWIN); 
+            //     record->event.pressed = true;
+            //     lang_shift_process_record(LA_CHNG, record);     
+            //     record->event.pressed = false;
+            //     return false;
+            // }
+
+        case RALT_T(KC_T):
+        case RALT_T(KC_D):
+            if (!modify_layer(KC_LALT, record)) {
+                return false;
+            } else {
+                break;
+            }
+            // if (!record->tap.count && record->event.pressed) { // Кнопка зажата
+            //     register_code(KC_LALT); 
+            //     lang_shift_process_record(LA_CHNG, record);     
+            //     return false;
+            // } else if (!record->tap.count && !record->event.pressed) { // Кнопка отжата после зажатия
+            //     unregister_code(KC_LALT); 
+            //     record->event.pressed = true;
+            //     lang_shift_process_record(LA_CHNG, record);     
+            //     record->event.pressed = false;
+            //     return false;
+            // }
+        
+        case RCTL_T(KC_J):
+        case RCTL_T(KC_Y):
+            if (!modify_layer(KC_LCTL, record)) {
+                return false;
+            } else {
+                break;
+            }
+            // if (!record->tap.count && record->event.pressed) { // Кнопка зажата
+            //     register_code(KC_LCTL); 
+            //     lang_shift_process_record(LA_CHNG, record);     
+            //     return false;
+            // } else if (!record->tap.count && !record->event.pressed) { // Кнопка отжата после зажатия
+            //     unregister_code(KC_LCTL); 
+            //     record->event.pressed = true;
+            //     lang_shift_process_record(LA_CHNG, record);     
+            //     record->event.pressed = false;
+            //     return false;
+            // }
     }
 
     return true;    // Если условия выше не сработали, то отправить символ как есть
@@ -278,50 +353,4 @@ bool caps_word_press_user(uint16_t keycode) {
         default:
             return false;  // Deactivate Caps Word.
     }
-}
-
-// Tap Dance. Позволяет юзать норм енг бинды из ру слоя(при зажатии кнопки с модификатором win/alt/ctrl свапается слой на енг и потом назад)
-void keyboard_post_init_user(void) {
-// Mod keys on RU layer
-    vial_tap_dance_entry_t td0 = {KC_C,   // С on tap, Win on hold
-                                  WIN_EN,
-                                  KC_NO,
-                                  KC_NO,
-                                  TAPPING_TERM};
-    dynamic_keymap_set_tap_dance(0, &td0);
-
-    vial_tap_dance_entry_t td1 = {KC_LBRC,// Х on tap, Win on hold
-                                  WIN_EN,
-                                  KC_NO,
-                                  KC_NO,
-                                  TAPPING_TERM};
-    dynamic_keymap_set_tap_dance(1, &td1);
-
-    vial_tap_dance_entry_t td2 = {KC_T,   // Е on tap, Alt on hold
-                                  ALT_EN,
-                                  KC_NO,
-                                  KC_NO,
-                                  TAPPING_TERM};
-    dynamic_keymap_set_tap_dance(2, &td2);
-
-    vial_tap_dance_entry_t td3 = {KC_D,   // В on tap, Alt on hold
-                                  ALT_EN,
-                                  KC_NO,
-                                  KC_NO,
-                                  TAPPING_TERM};
-    dynamic_keymap_set_tap_dance(3, &td3);
-
-    vial_tap_dance_entry_t td4 = {KC_J,   // О on tap, Ctrl on hold
-                                  CTRL_EN,
-                                  KC_NO,
-                                  KC_NO,
-                                  TAPPING_TERM};
-    dynamic_keymap_set_tap_dance(4, &td4);
-
-    vial_tap_dance_entry_t td5 = {KC_Y,   // Н on tap, Ctrl on hold
-                                  CTRL_EN,
-                                  KC_NO,
-                                  KC_NO,
-                                  TAPPING_TERM};
-    dynamic_keymap_set_tap_dance(5, &td5);
 }
