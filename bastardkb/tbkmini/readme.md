@@ -1,29 +1,37 @@
 # TBK Mini
 
-A split, compact ergonomic keyboard.
+[Сайт](https://bastardkb.com/) и [гитхаб](https://github.com/Bastardkb/) разраба клавиатуры.
 
-* Keyboard Maintainer: [Bastard Keyboards](https://github.com/Bastardkb/)
-* Hardware Supported: elite-C V4
-* Hardware Availability: [Bastardkb.com](https://bastardkb.com/)
 
-## Building the firmware
+## Сборка и прошивка 
 
-**You must specify the shield version when compiling/flashing the firmware.**
-
-The template is:
-
-```shell
-qmk compile -kb bastardkb/tbkmini/{VERSION}/elitec -km {KEYMAP}
+Для клавиатур на базе микроконтроллера `rp2040` команды для сборки и прошивки выглядят так:
+```sh
+make bastardkb/tbkmini/v2/splinky_3:seoa
 ```
 
-| Shield Version  | default                                                        | via                                                        |
-| --------------- | -------------------------------------------------------------- | ---------------------------------------------------------- |
-| v1 (Elite-C)    | `qmk compile -kb bastardkb/tbkmini/v1/elitec -km default`      | `qmk compile -kb bastardkb/tbkmini/v1/elitec -km via`      |
-| v2 (Elite-C)    | `qmk compile -kb bastardkb/tbkmini/v2/elitec -km default`      | `qmk compile -kb bastardkb/tbkmini/v2/elitec -km via`      |
-| v2 (Splinky v2) | `qmk compile -kb bastardkb/tbkmini/v2/splinky/v2 -km default`  | `qmk compile -kb bastardkb/tbkmini/v2/splinky/v2 -km via`  |
-| v2 (Splinky v3) | `qmk compile -kb bastardkb/tbkmini/v2/splinky/v3 -km default`  | `qmk compile -kb bastardkb/tbkmini/v2/splinky/v3 -km via`  |
-| v2 (STeMCell)   | `qmk compile -kb bastardkb/tbkmini/v2/stemcell -km default`    | `qmk compile -kb bastardkb/tbkmini/v2/stemcell -km via`    |
+```sh
+qmk flash -kb bastardkb/tbkmini/v2/splinky_3 -km seoa
+```
 
-See the [build environment setup](https://docs.qmk.fm/#/getting_started_build_tools) and the [make instructions](https://docs.qmk.fm/#/getting_started_make_guide) for more information. Brand new to QMK? Start with our [Complete Newbs Guide](https://docs.qmk.fm/#/newbs).
+Выполнять их следует из корня репозитория виала.
 
-See the [keyboard build instructions](http://docs.bastardkb.com/)
+После выполнения `qmk flash` нужно одновременно нажать 2 кнопки на микроконтроллере, либо 2 раза нажать кнопу `update`, если она уже распаяна на плате. Так прошивка будет залита на подключённый микроконтроллер.
+
+
+## Требования
+
+Эта прошивка занимает `~101.5 kb` так что нужно иметь контроллер с достаточным количеством памяти. Все контроллеры на базе `rp2040` не меньше `2 mb` памяти, так что из них можно взять любой.
+
+
+## Описание
+
+Автор оригинальной прошивки - [Buliway](https://github.com/Buliway)
+
+В данной прошивке реализована кастомная фонетическая раскладка с большим количеством дополнительных кейкодов с разной функциональностью("умная" точка, капс на слово и тп). Часть "фишек" взята из репозитория [lang_shift](https://github.com/klavarog/lang_shift).
+
+По дефолту стоит смена языка на капс, но это можно изменить под вашу систему в [config.h](./keymaps/seoa/config.h).
+
+Подсветка в клавиатуре желательна. Она отвечает за цвет слоя, в котором вы сейчас находитесь.
+
+В [./keymaps/seoa/img/](./keymaps/seoa/img/) лежит актуальная схема раскладки и файл для криты, если будет желание её редактировать ![](./keymaps/seoa/img/layers.png)

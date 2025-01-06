@@ -158,6 +158,11 @@ bool modify_layer(uint16_t keycode, keyrecord_t *record) {
     return true;
 };
 
+void reg_unreg(uint16_t keycode) {
+    register_code(keycode);
+    unregister_code(keycode);
+}
+
 bool shift_on_next_key = false;
 
 // Обработка нажатий?
@@ -186,8 +191,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В кон
     // Умная точка
     if (keycode == SMART_DOT && record->event.pressed) {
         lang_shift_tap_key(AG_DOT);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        reg_unreg(KC_SPC);
         shift_on_next_key = true;
         return false;
     }
@@ -196,8 +200,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В кон
     // Запятая + пробел
     if (keycode == COMMA_SPACE && record->event.pressed) {
         lang_shift_tap_key(AG_COMM);
-        register_code(KC_SPC);
-        unregister_code(KC_SPC);
+        reg_unreg(KC_SPC);
         return false;
     }
 
