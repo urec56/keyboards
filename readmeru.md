@@ -14,3 +14,4 @@
 ```sh
 nix-shell shell.nix --run zsh
 ```
+
