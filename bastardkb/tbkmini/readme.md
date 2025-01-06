@@ -1,11 +1,11 @@
 # TBK Mini
 
-[Сайт](https://bastardkb.com/) и [гитхаб](https://github.com/Bastardkb/) разраба клавиатуры.
+[Site](https://bastardkb.com/) and [github](https://github.com/Bastardkb/) of the author of this keyboard.
 
 
-## Сборка и прошивка 
+## Building and flashing
 
-Для клавиатур на базе микроконтроллера `rp2040` команды для сборки и прошивки выглядят так:
+For keyboards based on `rp2040` comands for buinding and flashing looks like this:
 ```sh
 make bastardkb/tbkmini/v2/splinky_3:seoa
 ```
@@ -14,24 +14,24 @@ make bastardkb/tbkmini/v2/splinky_3:seoa
 qmk flash -kb bastardkb/tbkmini/v2/splinky_3 -km seoa
 ```
 
-Выполнять их следует из корня репозитория виала.
+You shold use it in the root of the `vial` directory.
 
-После выполнения `qmk flash` нужно одновременно нажать 2 кнопки на микроконтроллере, либо 2 раза нажать кнопу `update`, если она уже распаяна на плате. Так прошивка будет залита на подключённый микроконтроллер.
-
-
-## Требования
-
-Эта прошивка занимает `~101.5 kb` так что нужно иметь контроллер с достаточным количеством памяти. Все контроллеры на базе `rp2040` не меньше `2 mb` памяти, так что из них можно взять любой.
+After using `qmk flash` you shold simultaneously press two buttons on the micro or twise press the `update` button if it was installed on plate already. After that you need to mount the `RPI-RP2`(or like this) device to your system and the firmware will be installed on your keyboard.
 
 
-## Описание
+## Requirements
 
-Автор оригинальной прошивки - [Buliway](https://github.com/Buliway)
+This firmware takes `~101.5 kb` of disk space so you need to use some micro that haue enough space for it. All cotrollers based on `rp2040` have at least `2 mb` of the disk space so you can use any of it.
 
-В данной прошивке реализована кастомная фонетическая раскладка с большим количеством дополнительных кейкодов с разной функциональностью("умная" точка, капс на слово и тп). Часть "фишек" взята из репозитория [lang_shift](https://github.com/klavarog/lang_shift).
 
-По дефолту стоит смена языка на капс, но это можно изменить под вашу систему в [config.h](./keymaps/seoa/config.h).
+## Description
 
-Подсветка в клавиатуре желательна. Она отвечает за цвет слоя, в котором вы сейчас находитесь.
+The author of the original layout - [Buliway](https://github.com/Buliway)
 
-В [./keymaps/seoa/img/](./keymaps/seoa/img/) лежит актуальная схема раскладки и файл для криты, если будет желание её редактировать ![](./keymaps/seoa/img/layers.png)
+Custom phonetic layout with many keycodes with different functionality("smart" dot, caps on one word etc.) were implemented in this firmware. Some "features" were added from [lang_shift](https://github.com/klavarog/lang_shift) repo.
+
+By defaul it uses the `caps lock` key to change system language but you can change it like in your system in [config.h](./keymaps/seoa/config.h).
+
+I suggest you to have RGB lightning in your keyboard. So it shows you which layer is active now.
+
+In [./keymaps/seoa/img/](./keymaps/seoa/img/) you can see current layout scheme and file for krita so you can modify it ![](./keymaps/seoa/img/layers.png)
