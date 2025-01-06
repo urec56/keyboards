@@ -1,6 +1,6 @@
 # My layouts
 
-For using this repo you need to clone it to the `vial_qmk` directory. I tested it on the `159c0888457e5675c6dc0a881e7c5bd8b54203e7` commit of [vial](https://github.com/vial-kb/vial-qmk/commit/159c0888457e5675c6dc0a881e7c5bd8b54203e7).
+For using this repo you need to clone it to the `vial-qmk` directory. I tested it on the `159c0888457e5675c6dc0a881e7c5bd8b54203e7` commit of [vial](https://github.com/vial-kb/vial-qmk/commit/159c0888457e5675c6dc0a881e7c5bd8b54203e7).
 
 For now it has firmwares for:
 - [tbkmini](./bastardkb/tbkmini/readme.md)
