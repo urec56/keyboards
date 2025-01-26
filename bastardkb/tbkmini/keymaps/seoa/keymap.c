@@ -36,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_ENG] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------------------------.                        ,-----------------------------------------------------------------------.
-         KC_ESC,    G(KC_ESC),   XXXXXXX,     KC_X,       KC_Q,     DF(L_GAME),                             KC_J,       KC_D,       KC_L,       KC_K,       KC_C,     XXXXXXX,
+         KC_ESC,    G(KC_ESC),   XXXXXXX,     KC_X,       KC_Q,      XXXXXXX,/*DF(L_GAME),*/                KC_J,       KC_D,       KC_L,       KC_K,       KC_C,     XXXXXXX,
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
           KC_F,   LWIN_T(KC_S),ALT_T(KC_E),CTL_T(KC_O),SFT_T(KC_A),  XXXXXXX,                               KC_G,  SFT_T(KC_T),CTL_T(KC_N),ALT_T(KC_V),LWIN_T(KC_H),  XXXXXXX,
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
@@ -96,7 +96,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_SYM] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------------------------.                        ,-----------------------------------------------------------------------.
-         XXXXXXX,     EN_AT,     EN_HASH,  ONCE_SHIFT,    AG_DOT,    EN_CIRC,                             EN_AMPR,    AG_ASTR,    AG_MINS,    AG_EQL,     AG_PLUS,    XXXXXXX,
+         XXXXXXX,     EN_AT,     EN_HASH,  ONCE_SHIFT,    AG_DOT,    EN_CIRC,                             EN_AMPR,    AG_ASTR,    AG_MINS,    AG_PLUS,     AG_EQL,    XXXXXXX,
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
          AG_COMM,    AG_EXCL,    AG_QUES,  COMMA_SPACE, SMART_DOT,   AG_PERC,                             EN_PIPE,    AG_LPRN,    EN_LBRC,    EN_LCBR,     EN_LT,     EN_GRV,
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
