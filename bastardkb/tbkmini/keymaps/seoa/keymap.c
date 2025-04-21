@@ -72,11 +72,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [L_NAV] = LAYOUT_split_3x6_3(
     //,-----------------------------------------------------------------------.                        ,-----------------------------------------------------------------------.
-         XXXXXXX,    XXXXXXX,    C(KC_Z),    C(KC_C),    C(KC_V),    XXXXXXX,                            C(KC_Y),    C(KC_V),    C(KC_C),    C(KC_X),    C(KC_Z),    C(KC_S),
+         XXXXXXX,    XXXXXXX,    C(KC_Z),    C(KC_C),    C(KC_V),   RCS(KC_V),                            C(KC_Y),    C(KC_V),    C(KC_C),    C(KC_X),    C(KC_Z),    C(KC_S),
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
          C(KC_F),    KC_LWIN,    KC_LALT,    KC_LCTL,    KC_LSFT,  S(KC_CAPS),                            XXXXXXX,    KC_LEFT,    KC_DOWN,     KC_UP,     KC_RGHT,    KC_TAB,
     //|-----------+-----------+-----------+-----------+-----------+-----------|                        |-----------+-----------+-----------+-----------+-----------+-----------|
-         XXXXXXX,    XXXXXXX,    C(KC_Y),    C(KC_A),    C(KC_X),    XXXXXXX,                              KC_INS,    KC_HOME,    KC_PGDN,    KC_PGUP,    KC_END,     KC_DEL,
+         XXXXXXX,    XXXXXXX,    C(KC_Y),    C(KC_A),    C(KC_X),   RCS(KC_C),                              KC_INS,    KC_HOME,    KC_PGDN,    KC_PGUP,    KC_END,     KC_DEL,
     //|-----------+-----------+-----------+-----------+-----------+-----------+-----------||-----------+-----------+-----------+-----------+-----------+-----------+-----------|
                                                          XXXXXXX,    XXXXXXX,    XXXXXXX,     XXXXXXX,    XXXXXXX,    XXXXXXX
                                                    //`+-----------+-----------+-----------||-----------+-----------+-----------+'
@@ -165,7 +165,7 @@ void reg_unreg(uint16_t keycode) {
 
 bool shift_on_next_key = false;
 
-// Обработка нажатий?
+// Обработка нажатий
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В конце должно быть true, чтоб символ напечатался.
     // lang_shift
     if (!lang_shift_process_record(keycode, record))
