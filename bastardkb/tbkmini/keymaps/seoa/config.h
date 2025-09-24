@@ -41,6 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define ENABLE_RGB_MATRIX_SOLID_COLOR
 #define SPLIT_LAYER_STATE_ENABLE
 
+#undef RGB_MATRIX_MAXIMUM_BRIGHTNESS
+#define RGB_MATRIX_MAXIMUM_BRIGHTNESS 64
 
 
 // Holding mouse movement keys moves the cursor at constant speeds

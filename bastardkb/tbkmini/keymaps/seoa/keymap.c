@@ -145,13 +145,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool modify_layer(uint16_t keycode, keyrecord_t *record) {
     if (!record->tap.count && record->event.pressed) { // Кнопка зажата
-        register_code(keycode); 
-        lang_shift_process_record(LA_CHNG, record);     
+        register_code(keycode);
+        lang_shift_process_record(LA_CHNG, record);
         return false;
     } else if (!record->tap.count && !record->event.pressed) { // Кнопка отжата после зажатия
-        unregister_code(keycode); 
+        unregister_code(keycode);
         record->event.pressed = true;
-        lang_shift_process_record(LA_CHNG, record);     
+        lang_shift_process_record(LA_CHNG, record);
         record->event.pressed = false;
         return false;
     }
@@ -222,7 +222,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В кон
             } else {
                 break;
             }
-        
+
         case RCTL_T(KC_J):
         case RCTL_T(KC_Y):
             if (!modify_layer(KC_LCTL, record)) {
@@ -240,61 +240,45 @@ void user_timer(void) {
 };
 
 
+
 // Lighting Layers
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
-    for (uint8_t i = led_min; i < led_max; i++) {
-        switch(get_highest_layer(layer_state|default_layer_state)) {
-            case L_ENG:
-                rgb_matrix_set_color(i, RGB_PINK);
-            break;
-            case L_RU:
-                rgb_matrix_set_color(i, RGB_PURPLE);
-            break;
-            case L_MEDIA:
-                rgb_matrix_set_color(i, RGB_MAGENTA);
-            break;
-            case L_NAV:
-                rgb_matrix_set_color(i, RGB_CYAN);
-            break;
-            case L_MOUSE:
-                rgb_matrix_set_color(i, RGB_YELLOW);
-            break;
-            case L_SYM:
-                rgb_matrix_set_color(i, RGB_GREEN);
-            break;
-            case L_NUM:
-                rgb_matrix_set_color(i, RGB_BLUE);
-            break;
-            case L_FUN:
-                rgb_matrix_set_color(i, RGB_RED);
-            break;
-            case L_GAME:
-                rgb_matrix_set_color(i, RGB_ORANGE);
-            break;
-            
-            default: // for any other layers, or the default layer
-                rgb_matrix_set_color(i, RGB_WHITE);
-            break;
-        }
+    // https://github.com/qmk/qmk_firmware/blob/master/quantum/color.h
+    HSV hsv = {255, 255, 255};
+
+    // Определяем цвет слоя в HSV
+    switch (get_highest_layer(layer_state | default_layer_state)) {
+        case L_ENG:   hsv = (HSV){HSV_PINK};    break;
+        case L_RU:    hsv = (HSV){HSV_PURPLE};  break;
+        case L_MEDIA: hsv = (HSV){HSV_MAGENTA}; break;
+        case L_NAV:   hsv = (HSV){HSV_CYAN};    break;
+        case L_MOUSE: hsv = (HSV){HSV_YELLOW};  break;
+        case L_SYM:   hsv = (HSV){HSV_GREEN};   break;
+        case L_NUM:   hsv = (HSV){HSV_BLUE};    break;
+        case L_FUN:   hsv = (HSV){HSV_RED};     break;
+        case L_GAME:  hsv = (HSV){HSV_ORANGE};  break;
+        default:      hsv = (HSV){HSV_WHITE};   break;
     }
+
+    // Ограничиваем яркость глобальной настройкой
+    if (hsv.v > rgb_matrix_get_val()) {
+        hsv.v = rgb_matrix_get_val();
+    }
+
+    // Конвертируем HSV в RGB
+    RGB rgb = hsv_to_rgb(hsv);
+
+    // Применяем цвет ко всем светодиодам
+    for (uint8_t i = led_min; i < led_max; i++) {
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+    }
+
     return false;
 }
 
 
 void matrix_scan_user(void) {
     user_timer();
-
-    // // Проверяем, активен ли слой
-    // if (!layer_state_cmp(layer_state, L_MEDIA) &&
-    //     !layer_state_cmp(layer_state, L_NAV) &&
-    //     !layer_state_cmp(layer_state, L_MOUSE) &&
-    //     !layer_state_cmp(layer_state, L_SYM) &&
-    //     !layer_state_cmp(layer_state, L_NUM) &&
-    //     !layer_state_cmp(layer_state, L_FUN) &&
-    //     !layer_state_cmp(layer_state, L_RU)) {
-    //     // Если ни один из этих слоев не активен, обновляем подсветку на основе текущего базового слоя
-    //     default_layer_state_set_user(default_layer_state);
-    //     }
 }
 
 
