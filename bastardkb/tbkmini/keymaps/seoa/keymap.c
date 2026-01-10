@@ -16,6 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "print.h"
+
 #include QMK_KEYBOARD_H
 #include "rgb_matrix.h"
 
@@ -165,8 +167,174 @@ void reg_unreg(uint16_t keycode) {
 
 bool shift_on_next_key = false;
 
+const char* key_to_str(uint16_t keycode) {
+    // 1. Твои кастомные кейкоды (lang_shift, слои и символы)
+    // Здесь мы возвращаем ровно то, что написано в твоем keymap.c
+    switch (keycode) {
+        case LA_CHNG:    return "LA_CHNG";
+        case LA_SYNC:    return "LA_SYNC";
+        case LA_CAPS:    return "LA_CAPS";
+        case LA_ALSH:    return "LA_ALSH";
+        case LA_CTSH:    return "LA_CTSH";
+        case LA_WISP:    return "LA_WISP";
+        case SMART_DOT:  return "SMART_DOT";
+        case ONCE_SHIFT: return "ONCE_SHIFT";
+        case COMMA_SPACE:return "COMMA_SPACE";
+        case RU_NUME:    return "RU_NUME";
+        case CW_TOGG:    return "CW_TOGG";
+        case EN_AT:      return "EN_AT";
+        case EN_HASH:    return "EN_HASH";
+        case AG_DOT:     return "AG_DOT";
+        case EN_CIRC:    return "EN_CIRC";
+        case EN_AMPR:    return "EN_AMPR";
+        case AG_ASTR:    return "AG_ASTR";
+        case AG_MINS:    return "AG_MINS";
+        case AG_PLUS:    return "AG_PLUS";
+        case AG_EQL:     return "AG_EQL";
+        case AG_COMM:    return "AG_COMM";
+        case AG_EXCL:    return "AG_EXCL";
+        case AG_QUES:    return "AG_QUES";
+        case AG_PERC:    return "AG_PERC";
+        case EN_PIPE:    return "EN_PIPE";
+        case AG_LPRN:    return "AG_LPRN";
+        case AG_RPRN:    return "AG_RPRN";
+        case EN_LBRC:    return "EN_LBRC";
+        case EN_RBRC:    return "EN_RBRC";
+        case EN_LCBR:    return "EN_LCBR";
+        case EN_RCBR:    return "EN_RCBR";
+        case EN_LT:      return "EN_LT";
+        case EN_GT:      return "EN_GT";
+        case EN_SLSH:    return "EN_SLSH";
+        case AG_BSLS:    return "AG_BSLS";
+        case AG_DQUO:    return "AG_DQUO";
+        case EN_QUOT:    return "EN_QUOT";
+        case EN_DLR:     return "EN_DLR";
+        case AG_UNDS:    return "AG_UNDS";
+        case AG_COLN:    return "AG_COLN";
+        case AG_SCLN:    return "AG_SCLN";
+        case EN_TILD:    return "EN_TILD";
+        case EN_GRV:     return "EN_GRV";
+        case AG_0: return "AG_0"; case AG_1: return "AG_1";
+        case AG_2: return "AG_2"; case AG_3: return "AG_3";
+        case AG_4: return "AG_4"; case AG_5: return "AG_5";
+        case AG_6: return "AG_6"; case AG_7: return "AG_7";
+        case AG_8: return "AG_8"; case AG_9: return "AG_9";
+    }
+
+    // 2. Извлекаем "чистый" кейкод (Base Key)
+    // Это позволит увидеть "KC_A" внутри "SFT_T(KC_A)" или "C(KC_Z)"
+    uint16_t clean_keycode = keycode;
+    if (keycode >= QK_MOD_TAP) clean_keycode = keycode & 0xFF;
+    else if (keycode >= QK_LAYER_TAP) clean_keycode = keycode & 0xFF;
+    else if (keycode > 0xFF) clean_keycode = keycode & 0xFF;
+
+    // 3. Точные стандартные имена QMK
+    switch (clean_keycode) {
+        case KC_A ... KC_Z: {
+            static char b[] = "KC_X";
+            b[3] = 'A' + (clean_keycode - KC_A);
+            return b;
+        }
+        case KC_1 ... KC_0: {
+            static char b[] = "KC_X";
+            b[3] = (clean_keycode == KC_0) ? '0' : '1' + (clean_keycode - KC_1);
+            return b;
+        }
+        case KC_ESC:  return "KC_ESC";
+        case KC_ENT:  return "KC_ENT";
+        case KC_BSPC: return "KC_BSPC";
+        case KC_SPC:  return "KC_SPC";
+        case KC_TAB:  return "KC_TAB";
+        case KC_CAPS: return "KC_CAPS";
+        case KC_LSFT: return "KC_LSFT";
+        case KC_LCTL: return "KC_LCTL";
+        case KC_LALT: return "KC_LALT";
+        case KC_LWIN: return "KC_LWIN";
+        case KC_RSFT: return "KC_RSFT";
+        case KC_RCTL: return "KC_RCTL";
+        case KC_RALT: return "KC_RALT";
+        case KC_RWIN: return "KC_RWIN";
+        case KC_LEFT: return "KC_LEFT";
+        case KC_RGHT: return "KC_RGHT";
+        case KC_UP:   return "KC_UP";
+        case KC_DOWN: return "KC_DOWN";
+        case KC_COMM: return "KC_COMM";
+        case KC_DOT:  return "KC_DOT";
+        case KC_SCLN: return "KC_SCLN";
+        case KC_QUOT: return "KC_QUOT";
+        case KC_GRV:  return "KC_GRV";
+        case KC_SLSH: return "KC_SLSH";
+        case KC_BSLS: return "KC_BSLS";
+        case KC_MINS: return "KC_MINS";
+        case KC_EQL:  return "KC_EQL";
+        case KC_LBRC: return "KC_LBRC";
+        case KC_RBRC: return "KC_RBRC";
+        case KC_PSCR: return "KC_PSCR";
+        case KC_INS:  return "KC_INS";
+        case KC_DEL:  return "KC_DEL";
+        case KC_HOME: return "KC_HOME";
+        case KC_END:  return "KC_END";
+        case KC_PGUP: return "KC_PGUP";
+        case KC_PGDN: return "KC_PGDN";
+        // Мышь - точные имена
+        case KC_MS_U: return "KC_MS_U";
+        case KC_MS_D: return "KC_MS_D";
+        case KC_MS_L: return "KC_MS_L";
+        case KC_MS_R: return "KC_MS_R";
+        case KC_BTN1: return "KC_BTN1";
+        case KC_BTN2: return "KC_BTN2";
+        case KC_BTN3: return "KC_BTN3";
+        case KC_BTN4: return "KC_BTN4";
+        case KC_BTN5: return "KC_BTN5";
+        case KC_WH_U: return "KC_WH_U";
+        case KC_WH_D: return "KC_WH_D";
+        case KC_WH_L: return "KC_WH_L";
+        case KC_WH_R: return "KC_WH_R";
+        case KC_ACL0: return "KC_ACL0";
+        case KC_ACL1: return "KC_ACL1";
+        case KC_ACL2: return "KC_ACL2";
+        // Медиа - точные имена
+        case KC_VOLD: return "KC_VOLD";
+        case KC_VOLU: return "KC_VOLU";
+        case KC_MUTE: return "KC_MUTE";
+        case KC_MPLY: return "KC_MPLY";
+        case KC_MPRV: return "KC_MPRV";
+        case KC_MNXT: return "KC_MNXT";
+        // Системные
+        case QK_BOOT: return "QK_BOOT";
+        case NK_ON:   return "NK_ON";
+        case NK_OFF:  return "NK_OFF";
+        case NK_TOGG: return "NK_TOGG";
+        case RGB_TOG: return "RGB_TOG";
+
+        case KC_F1: return "KC_F1"; case KC_F2: return "KC_F2";
+        case KC_F3: return "KC_F3"; case KC_F4: return "KC_F4";
+        case KC_F5: return "KC_F5"; case KC_F6: return "KC_F6";
+        case KC_F7: return "KC_F7"; case KC_F8: return "KC_F8";
+        case KC_F9: return "KC_F9"; case KC_F10: return "KC_F10";
+        case KC_F11: return "KC_F11"; case KC_F12: return "KC_F12";
+
+        case 0: return "KC_NO";
+        default: return "UNKNOWN";
+    }
+}
+
 // Обработка нажатий
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В конце должно быть true, чтоб символ напечатался.
+#ifdef CONSOLE_ENABLE
+    if (record->event.pressed) {
+        const char* name = key_to_str(keycode);
+
+        // Если это сложный код (Mod-Tap, Layer-Tap, Combo)
+        if (keycode > 0xFF) {
+            uprintf("Complex Key: Raw=%u, Base=%s\n", keycode, name);
+        } else {
+            // Если это обычная одиночная клавиша
+            uprintf("Key: %s\n", name);
+        }
+    }
+#endif
+
     // lang_shift
     if (!lang_shift_process_record(keycode, record))
         return false;

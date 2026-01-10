@@ -19,3 +19,6 @@ CAPS_WORD_ENABLE    = yes
 VIAL_INSECURE   = yes
 VIA_ENABLE      = yes
 VIAL_ENABLE     = yes
+
+KEYCODE_STRING_ENABLE = yes
+CONSOLE_ENABLE        = yes
