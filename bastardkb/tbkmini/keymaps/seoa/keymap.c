@@ -327,20 +327,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {   // В кон
 
         // Если это сложный код (Mod-Tap, Layer-Tap, Combo)
         if (keycode > 0xFF) {
-            uprintf("PRESSED: Complex Key: Raw=%u, Base=%s\n", keycode, name);
+            uprintf("Complex Key: Raw=%u, Base=%s\n", keycode, name);
         } else {
             // Если это обычная одиночная клавиша
-            uprintf("PRESSED: Key: %s\n", name);
-        }
-    } else {
-        const char* name = key_to_str(keycode);
-
-        // Если это сложный код (Mod-Tap, Layer-Tap, Combo)
-        if (keycode > 0xFF) {
-            uprintf("RELESED: Complex Key: Raw=%u, Base=%s\n", keycode, name);
-        } else {
-            // Если это обычная одиночная клавиша
-            uprintf("RELESED: Key: %s\n", name);
+            uprintf("Key: %s\n", name);
         }
     }
 #endif
